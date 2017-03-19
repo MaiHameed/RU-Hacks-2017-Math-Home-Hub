@@ -15,8 +15,10 @@ r2 = 0
 def randize():
 	global r1
 	global r2
-	r1 = random.randint(0,100)
-	r2 = random.randint(0,100)
+	global r3
+	r1 = random.randint(0,10)
+	r2 = random.randint(0,10)
+	r3 = random.randint(0,2)
 
 @ask.launch
 def start_skill():
@@ -26,22 +28,38 @@ def start_skill():
 @ask.intent("yesIntent")
 def ask_question():
 	randize()
-	askstring = "Okay starting math quiz, whenever you want to quit just say quit. What is the answer to " + str(r1) + " plus " +  str(r2) 	+ " ?"
+	if r3 == 0
+	askstring = "Okay starting math quiz, whenever you want to quit just say quit.What is the answer to " + str(r1) + " plus " +  str(r2) + " ?"
+	elif r3 == 1
+	askstring = "Okay starting math quiz, whenever you want to quit just say quit.What is the answer to " + str(r1) + " minus " +  str(r2) + " ?"
+	elif r3 == 2
+	askstring = "Okay starting math quiz, whenever you want to quit just say quit.What is the answer to " + str(r1) + " times " +  str(r2) + " ?"
+	return question(askstring)
 	reprompts = "I'm sorry I didn't catch that, What is the answer to " + str(r1) + " plus " +  str(r2) + " ?"
 	return question(askstring).reprompt(reprompts)
 
 @ask.intent("AnswerIntent", convert ={'first':int})
 def answer(first):
-	if first == r1+r2:
-		msg = 'Correct!'
-        	global correct
-		correct+=1
-    	else:
+	if r3 == 0
+		if first == r1+r2:
+		msg = 'Correct'
+			correct+=1
+		else:
 		msg = 'Incorrect'
-    		global total
-    		total+=1
-	return statement(msg)
-Score = 'your score is' + str(correct) + 'out of' + str(total)
+	elif r3 == 1
+		if first == r1-r2:
+		msg = 'Correct'
+			correct+=1
+		else:
+		msg = 'Incorrect'
+	elif r3 == 3
+		if first == r1+r2:
+		msg = 'Correct'
+			correct+=1
+		else:
+		msg = 'Incorrect'
+		return statement(msg)
+	Score = 'your score is' + str(correct) + 'out of' + str(total)
 
 @ask.intent('AMAZON.StopIntent')
 def stop():
